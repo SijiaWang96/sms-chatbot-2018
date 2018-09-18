@@ -5,6 +5,10 @@ require "sinatra/reloader" if development?
 #  require 'dotenv'
 #  Dotenv.load
 #end
+configure :development do
+  require 'dotenv'
+  Dotenv.load
+end
 
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
