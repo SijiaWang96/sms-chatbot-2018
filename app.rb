@@ -84,11 +84,11 @@ post "/signup" do
 #  return 403
 #  end
 # code to check parameters
- if params[:first_name].nil? || params[:number].nil?
- return  "You forget input firstname or number! "
- elsif params[:first_name].nil? && params[:number].nil?
- return  "Please input firstname & number ! "
- else
+ #if params[:first_name].nil? || params[:number].nil?
+ #return  "You forget input firstname or number! "
+ #elsif params[:first_name].nil? && params[:number].nil?
+ #return  "Please input firstname & number ! "
+ #else
    client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
    message = "Hi" + params[:first_name] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
 
@@ -100,7 +100,43 @@ post "/signup" do
     )
 	# response if eveything is OK
 	"You're signed up. You'll receive a text message in a few minutes from the bot. "
+#end
+
 end
+
+get "/sms/incoming" do
+  session["counter"] ||= 1
+  body = params[:Body] || ""
+  sender = params[:From] || ""
+
+  if session["counter"] == 1
+    message = "Thanks for your first message. From #{sender} saying #{body}"
+    media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+  else
+    message = "Thanks for message number #{ session["counter"] }. From #{sender} saying #{body}"
+    media = nil
+  end
+
+  # Build a twilio response object
+  twiml = Twilio::TwiML::MessagingResponse.new do |r|
+    r.message do |m|
+
+      # add the text of the response
+      m.body( message )
+
+      # add media if it is defined
+      unless media.nil?
+        m.media( media )
+      end
+    end
+  end
+
+  # increment the session counter
+  session["counter"] += 1
+
+  # send a response to twilio
+  content_type 'text/xml'
+  twiml.to_s
 
 end
 
@@ -114,4 +150,4 @@ get '/test/conversation/:body/:from' do
     determine_response params[:body]
     end
 
-end
+#end
