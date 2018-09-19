@@ -75,21 +75,33 @@ get '/signup' do
 end
 
 post "/signup" do
-  secret = "13269559220"
-  if params[:code].nil?
-  return "Please input your code!"
-  elsif  params[:code] == secret
-  return "You've got the code"
-  else
-  return 403
-  end
- #if params[:first_name].nil? || params[:number].nil?
- #return  "You forget input firstname or number! "
- #elsif params[:first_name].nil? && params[:number].nil?
- #return  "Please input firstname & number ! "
- #else
- #'Hi, you will receive a text message in a few minutes from the MeBot.'
- #end
+#  secret = "13269559220"
+#  if params[:code].nil?
+#  return "Please input your code!"
+#  elsif  params[:code] == secret
+#  return "You've got the code"
+#  else
+#  return 403
+#  end
+# code to check parameters
+ if params[:first_name].nil? || params[:number].nil?
+ return  "You forget input firstname or number! "
+ elsif params[:first_name].nil? && params[:number].nil?
+ return  "Please input firstname & number ! "
+ else
+   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+   message = "Hi" + params[:first_name] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
+
+  # this will send a message from any end point
+    client.api.account.messages.create(
+    from: ENV["TWILIO_FROM"],
+    to: params[:number],
+    body: message
+    )
+	# response if eveything is OK
+	"You're signed up. You'll receive a text message in a few minutes from the bot. "
+end
+
 end
 
 get '/test/conversation/:body/:from' do
