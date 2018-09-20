@@ -18,6 +18,7 @@ end
 def normal_greeting time
 "<h1>Welcome back! " + "</h1><p> My app does xyz. You have visited " + session["visits"].to_s + " times as of " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
 end
+# detemine the different types of greeting
 
 def determine_response body
 body = body.to_s.downcase.strip
@@ -43,7 +44,7 @@ body = body.to_s.downcase.strip
       end
 
 end
-
+# conversation design
 
 get '/' do
     redirect "/about"
@@ -69,11 +70,12 @@ get '/about' do
     end
 
 end
+# greeting
 
 get '/signup' do
     erb :signup
 end
-
+# signup form
 post "/signup" do
 #  secret = "13269559220"
 #  if params[:code].nil?
@@ -102,18 +104,20 @@ post "/signup" do
 	"You're signed up. You'll receive a text message in a few minutes from the bot. "
 #end
 
+# signup sms
+
 end
 
 get "/sms/incoming" do
   session["counter"] ||= 1
-  body = params[:Body] || ""
-  sender = params[:From] || ""
+  body = params[:Body]
+  # sender = params[:From]
 
   if session["counter"] == 1
-    message = "Thanks for your first message. From #{sender} saying #{body}"
+    message = "Thanks for your first message. Received #{body}."
     media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
   else
-    message = "Thanks for message number #{ session["counter"] }. From #{sender} saying #{body}"
+    message = "Thanks for message number #{ session["counter"] }.  Received #{body} from."
     media = nil
   end
 
@@ -139,6 +143,7 @@ get "/sms/incoming" do
   twiml.to_s
 
 end
+# firstconversation
 
 get '/test/conversation/:body/:from' do
 
@@ -150,4 +155,4 @@ get '/test/conversation/:body/:from' do
     determine_response params[:body]
     end
 
-#end
+end
