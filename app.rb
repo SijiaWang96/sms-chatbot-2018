@@ -112,16 +112,17 @@ get "/sms/incoming" do
   session["counter"] ||= 1
   #body = params[:Body]
   # sender = params[:From]
-  #
-  # if session["counter"] == 1
-  #   message = "Thanks for your first message."
-  #   #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
-  # else
-  #   message = "Thanks for message."
-  #   #media = nil
-  # end
 
-  message = "testtttt!"
+   if session["counter"] == 1
+     message = "Thanks for your first message."
+     #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+   else
+     message = "Thanks for message."
+     #media = nil
+   end
+
+
+  # message = "testtttt!"
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
