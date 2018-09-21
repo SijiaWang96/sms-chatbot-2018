@@ -56,7 +56,7 @@ get '/about' do
     session["visits"] = session["visits"] + 1
     time = Time.now
     if session["visits"] == 1
-      if time.dst? == TRUE
+      if time.dst?  == TRUE
         daytimegreeting.sample + " " +  first_greeting(time)
       else
         eveninggreeting.sample + " " +  first_greeting(time)
@@ -92,7 +92,7 @@ post "/signup" do
  #return  "Please input firstname & number ! "
  #else
    client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-   message = "Hi" + params[:first_name] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
+   message = "Hi," + params[:first_name] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
 
   # this will send a message from any end point
     client.api.account.messages.create(
