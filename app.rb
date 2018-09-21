@@ -10,7 +10,7 @@ end
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
-whatelse = ["what", "feature", "function", "action"]
+
 def first_greeting time
 "</h1><p>My app does xyz. You have visited at " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
 end
@@ -110,7 +110,7 @@ end
 get "/sms/incoming" do
   # session["counter"] ||= 1
   #body = params[:Body]
-  # sender = params[:From]
+  #sender = params[:From]
 #  ====== sample
    # if session["counter"] == 1
    #   message = "Thanks for your first message."
