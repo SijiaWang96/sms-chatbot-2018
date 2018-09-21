@@ -24,23 +24,22 @@ def determine_response body
 body = body.to_s.downcase.strip
 
       if params[:body] == "hi"
-        "Add a general greeting for your bot. Explain its functionality"
+        message = "Hi, I am mebot！"
       elsif params[:body] == "who"
-        "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+        message = "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif params[:body] == "what"
-        "Respond with an explanation that the bot can be used to ask basic things about you"
+        message = "Respond with an explanation that the bot can be used to ask basic things about you"
       elsif params[:body] == "where"
-        "I amin Pittsburgh"
+        message = "I amin Pittsburgh"
       elsif params[:body] == "when"
-        "I was made in Fall 2018."
+        message = "I was made in Fall 2018."
       elsif params[:body] == "why"
-        "I was made for a class project in CMU programing for online prototypes."
+        message = "I was made for a class project in CMU programing for online prototypes."
       elsif params[:body] == "fact"
         array_of_lines = IO.readlines("fact.txt")
-        array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
-
+        message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-        "I cannot understand. You can ask me who I am."
+        message = "I cannot understand. You can ask me who I am."
       end
 
 end
@@ -112,7 +111,7 @@ get "/sms/incoming" do
   # session["counter"] ||= 1
   #body = params[:Body]
   # sender = params[:From]
-
+#  ====== sample
    # if session["counter"] == 1
    #   message = "Thanks for your first message."
    #   #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
@@ -121,8 +120,10 @@ get "/sms/incoming" do
    #   #media = nil
    # end
 
-
   message = "testtttt!"
+
+#=======conversation
+  # determine_response params[:body]
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
