@@ -91,7 +91,7 @@ post "/signup" do
  #return  "Please input firstname & number ! "
  #else
    client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-   message = "Hi," + params[:first_name] + ", welcome to BotName! I can respond to who, what, where, when and why. If you're stuck, type help."
+   message = "Hi," + params[:first_name] + ", welcome to MeBot! I can respond to who, what, where, when and why. If you're stuck, type help."
 
   # this will send a message from any end point
     client.api.account.messages.create(
@@ -101,10 +101,6 @@ post "/signup" do
     )
 	# response if eveything is OK
 	"You're signed up. You'll receive a text message in a few minutes from the bot. "
-#end
-
-# signup sms
-
 end
 
 get "/sms/incoming" do
