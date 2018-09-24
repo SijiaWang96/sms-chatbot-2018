@@ -105,7 +105,7 @@ end
 
 get "/sms/incoming" do
   # session["counter"] ||= 1
-  #body = params[:Body]
+  body = params[:Body]
   #sender = params[:From]
 #  ====== sample
    # if session["counter"] == 1
@@ -116,10 +116,10 @@ get "/sms/incoming" do
    #   #media = nil
    # end
 
-  message = "testtttt!"
+#  message = "testtttt!"
 
 #=======conversation
-  # determine_response params[:body]
+  determine_response params[:body]
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
