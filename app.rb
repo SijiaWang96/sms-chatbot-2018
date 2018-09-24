@@ -22,24 +22,25 @@ end
 
 def determine_response body
 body = body.to_s.downcase.strip
+case body
+      when "hi"
+      return "Hi, I am mebot！"
+      when "who"
+      return "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+      when   "what"
+      return"Respond with an explanation that the bot can be used to ask basic things about you"
 
-      if params[:body] == "hi"
-        message = "Hi, I am mebot！"
-      elsif params[:body] == "who"
-        message = "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
-      elsif params[:body] == "what"
-        message = "Respond with an explanation that the bot can be used to ask basic things about you"
-      elsif params[:body] == "where"
-        message = "I amin Pittsburgh"
-      elsif params[:body] == "when"
-        message = "I was made in Fall 2018."
-      elsif params[:body] == "why"
-        message = "I was made for a class project in CMU programing for online prototypes."
-      elsif params[:body] == "fact"
-        array_of_lines = IO.readlines("fact.txt")
-        message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
+      #elsif params[:body] == "where"
+      #  message = "I amin Pittsburgh"
+      #elsif params[:body] == "when"
+      #  message = "I was made in Fall 2018."
+      #elsif params[:body] == "why"
+      #  message = "I was made for a class project in CMU programing for online prototypes."
+      #elsif params[:body] == "fact"
+      #  array_of_lines = IO.readlines("fact.txt")
+      #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-        message = "I cannot understand. You can ask me who I am."
+      return "I cannot understand. You can ask me who I am."
       end
 
 end
