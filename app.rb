@@ -104,22 +104,21 @@ post "/signup" do
 end
 
 get "/sms/incoming" do
-  # session["counter"] ||= 1
-  #body = params[:Body]
-  #sender = params[:From]
+   session["counter"] ||= 1
+  body = params[:Body]
+  sender = params[:From]
 #  ====== sample
-   # if session["counter"] == 1
-   #   message = "Thanks for your first message."
-   #   #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
-   # else
-   #   message = "Thanks for message."
-   #   #media = nil
-   # end
+    if session["counter"] == 1
+      message = "Thanks for your first message.From #{sender} saying [#{body}]"
+      media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+    else
+      determine_response body
+    end
 
 #  message = "testtttt!"
 
 #=======conversation
-  determine_response params[:body]
+  #determine_response params[:body]
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
@@ -129,14 +128,14 @@ get "/sms/incoming" do
       m.body( message )
 
       # add media if it is defined
-      #unless media.nil?
-        #m.media( media )
-      #end
+      unless media.nil?
+        m.media( media )
+      end
     end
   end
 
   # increment the session counter
-  # session["counter"] += 1
+   session["counter"] += 1
 
   # send a response to twilio
   content_type 'text/xml'
