@@ -42,7 +42,7 @@ def search_giphy_for query
   unless results.empty?
     #puts results.to_yaml
     gif = results.sample.original_image.url
-    return gif
+    return gif.to_s
 
   else
     return nil
