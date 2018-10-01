@@ -45,7 +45,8 @@ def determine_response body
       media = nil
 
       if body == "hi"
-      message = "Hi, I am mebot！"
+      message = "Hi, I am Guagua！Photos sent form New York!"
+      media = "https://media.giphy.com/media/14uPT7tV9i73hO8RSV/giphy.gif"
       elsif body == "who"
       message = "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
