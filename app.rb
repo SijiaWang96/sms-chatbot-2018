@@ -11,9 +11,9 @@ end
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
-cities = ["Beijing","Shanghai","Chicago", "New York"]
+cities = ["Beijing","Shanghai","Chicago","New York"]
 
-def get_city
+def get_city city
   return cities.sample
 end
 
@@ -82,8 +82,8 @@ def determine_response body
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
       #media = search_giphy_for body
-      message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
-      media = search_giphy_for get_city
+      #message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
+      media = search_giphy_for ( get_city (city) )
       end
 
   #end
