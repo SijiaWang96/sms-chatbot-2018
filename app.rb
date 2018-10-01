@@ -78,7 +78,7 @@ def determine_response body
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
       #elsif params[:body] == "fact"
-      #  array_of_lines = IO.readlines("fact.txt")
+      # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
       #media = search_giphy_for body
