@@ -60,7 +60,8 @@ def determine_response body
       #  array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      media = search_giphy_for(body)
+      media = search_giphy_for body
+      message = " "
       end
 
       return message, media
@@ -135,7 +136,7 @@ get "/sms/incoming" do
       message = "Thanks for your first message.From #{sender} saying [#{body}]"
       media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
     else
-      message, media = determine_response(body)
+      message, media = determine_response (body)
     end
 
 #  message = "testtttt!"
