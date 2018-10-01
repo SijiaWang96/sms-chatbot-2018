@@ -61,7 +61,7 @@ def determine_response body
       #  array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      media = search_giphy_for(body)
+      media = search_giphy_for body
       end
 
       return message, media
