@@ -1,6 +1,7 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'twilio-ruby'
+require 'giphy'
 
 configure :development do
   require 'dotenv'
@@ -19,29 +20,50 @@ def normal_greeting time
 "<h1>Welcome back! " + "</h1><p> My app does xyz. You have visited " + session["visits"].to_s + " times as of " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
 end
 # detemine the different types of greeting
+def search_giphy_for query
+
+  Giphy::Configuration.configure do |config|
+    config.api_key = ENV["GIPHY_API_KEY"]
+  end
+
+  results = Giphy.search( query, {limit: 20})
+
+  unless results.empty?
+    #puts results.to_yaml
+    gif = results.sample.original_image.url
+    return gif
+
+  else
+    return nil
+  end
+
+end
 
 def determine_response body
-body = body.to_s.downcase.strip
-case body
-      when "hi"
-      return "Hi, I am mebot！"
-      when "who"
-      return "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
-      when   "what"
-      return"Respond with an explanation that the bot can be used to ask basic things about you"
+      body = body.to_s.downcase.strip
+      message = " "
+      media = nil
 
-      #elsif params[:body] == "where"
-      #  message = "I amin Pittsburgh"
-      #elsif params[:body] == "when"
-      #  message = "I was made in Fall 2018."
-      #elsif params[:body] == "why"
-      #  message = "I was made for a class project in CMU programing for online prototypes."
+      if body == "hi"
+      message = "Hi, I am mebot！"
+      elsif body == "who"
+      message = "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+      elsif body == "what"
+      message ="Respond with an explanation that the bot can be used to ask basic things about you"
+      elsif body =="where"
+      message = "I amin Pittsburgh"
+      elsif body =="when"
+      message ="I was made in Fall 2018."
+      elsif body =="why"
+      message = "I was made for a class project in CMU programing for online prototypes."
       #elsif params[:body] == "fact"
       #  array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      return "I cannot understand. You can ask me who I am."
+      media = search_giphy_for(body)
       end
+
+      return message, media
 
 end
 # conversation design
@@ -113,8 +135,7 @@ get "/sms/incoming" do
       message = "Thanks for your first message.From #{sender} saying [#{body}]"
       media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
     else
-      message = determine_response(body)
-      media = nil
+      message, media = determine_response(body)
     end
 
 #  message = "testtttt!"
