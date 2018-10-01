@@ -66,8 +66,7 @@ def determine_response body
   #else
 
       if body == "hi"
-      message = "Hi, I am Guagua！Photos sent form New York!"
-      media = "https://media.giphy.com/media/14uPT7tV9i73hO8RSV/giphy.gif"
+      message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
@@ -82,7 +81,9 @@ def determine_response body
       #  array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      media = search_giphy_for body
+      #media = search_giphy_for body
+      media = search_giphy_for get_city
+      message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
       end
 
   #end
@@ -156,8 +157,8 @@ get "/sms/incoming" do
   sender = params[:From]
 #  ====== sample
     if session["counter"] == 1
-      message = "Thanks for your first message.From #{sender} saying [#{body}]"
-      media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+      message = "Hi~ I am Guagua~ Your friend!"
+      media = nil
     else
       message, media = determine_response body
     end
