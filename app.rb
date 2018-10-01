@@ -24,11 +24,11 @@ def city_message
 end
 
 def first_greeting time
-"</h1><p>My app does xyz. You have visited at " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
+ "</h1><p>My app does xyz. You have visited at " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
 end
 
 def normal_greeting time
-"<h1>Welcome back! " + "</h1><p> My app does xyz. You have visited " + session["visits"].to_s + " times as of " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
+ "<h1>Welcome back! " + "</h1><p> My app does xyz. You have visited " + session["visits"].to_s + " times as of " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
 end
 # detemine the different types of greeting
 def search_giphy_for query
@@ -41,7 +41,7 @@ def search_giphy_for query
 
   unless results.empty?
     #puts results.to_yaml
-    gif = results.first.original_image.url
+    gif = results.sample.original_image.url
     return gif
 
   else
@@ -51,15 +51,24 @@ def search_giphy_for query
 end
 
 def determine_response body
-      body = body.to_s.downcase.strip
-      message = " "
-      media = nil
+  body = body.to_s.downcase.strip
+  message = " "
+  media = nil
 
+  if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
+  message = "Guagua is eating breakfast!"
+  elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  message = "Guagua is eating lunch!"
+  elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
+  message = "Guagua is eating lunch!"
+  elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
+  message = "Guagua is sleeping!"
+  else
       if body == "hi"
       message = "Hi, I am Guagua！Photos sent form New York!"
       media = "https://media.giphy.com/media/14uPT7tV9i73hO8RSV/giphy.gif"
       elsif body == "who"
-      message = "This is a MeBot. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+      message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
       message ="Respond with an explanation that the bot can be used to ask basic things about you"
       elsif body =="where"
@@ -75,7 +84,9 @@ def determine_response body
       media = search_giphy_for body
       end
 
-      return message, media
+  end
+
+  return message, media
 
 end
 # conversation design
@@ -139,16 +150,16 @@ post "/signup" do
 end
 
 get "/sms/incoming" do
-   session["counter"] ||= 1
-  body = params[:Body]
-  sender = params[:From]
+  #session["counter"] ||= 1
+  #body = params[:Body]
+  #sender = params[:From]
 #  ====== sample
-    if session["counter"] == 1
-      message = "Thanks for your first message.From #{sender} saying [#{body}]"
-      media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
-    else
+    #if session["counter"] == 1
+      #message = "Thanks for your first message.From #{sender} saying [#{body}]"
+      #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+    #else
       message, media = determine_response body
-    end
+    #end
 
 #  message = "testtttt!"
 
