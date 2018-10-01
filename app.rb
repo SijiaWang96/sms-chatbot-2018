@@ -64,6 +64,7 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
+
       if body == "hi"
       message = "Hi, I am Guagua！Photos sent form New York!"
       media = "https://media.giphy.com/media/14uPT7tV9i73hO8RSV/giphy.gif"
@@ -150,16 +151,16 @@ post "/signup" do
 end
 
 get "/sms/incoming" do
-  #session["counter"] ||= 1
-  #body = params[:Body]
-  #sender = params[:From]
+  session["counter"] ||= 1
+  body = params[:Body]
+  sender = params[:From]
 #  ====== sample
-    #if session["counter"] == 1
-      #message = "Thanks for your first message.From #{sender} saying [#{body}]"
-      #media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
-    #else
+    if session["counter"] == 1
+      message = "Thanks for your first message.From #{sender} saying [#{body}]"
+      media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
+    else
       message, media = determine_response body
-    #end
+    end
 
 #  message = "testtttt!"
 
