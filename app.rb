@@ -26,11 +26,11 @@ def search_giphy_for query
     config.api_key = ENV["GIPHY_API_KEY"]
   end
 
-  results = Giphy.search( query, {limit: 20})
+  results = Giphy.search(query, {limit: 20})
 
   unless results.empty?
     #puts results.to_yaml
-    gif = results.sample.original_image.url
+    gif = results.first.original_image.url
     return gif
 
   else
@@ -60,8 +60,7 @@ def determine_response body
       #  array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      media = search_giphy_for body
-      message = " "
+      media = search_giphy_for(body)
       end
 
       return message, media
@@ -136,13 +135,12 @@ get "/sms/incoming" do
       message = "Thanks for your first message.From #{sender} saying [#{body}]"
       media = "https://media.giphy.com/media/13ZHjidRzoi7n2/giphy.gif"
     else
-      message, media = determine_response (body)
+      message, media = determine_response body
     end
 
 #  message = "testtttt!"
 
-#=======conversation
-  #determine_response params[:body]
+
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
