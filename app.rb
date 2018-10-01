@@ -82,8 +82,8 @@ def determine_response body
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
       #media = search_giphy_for body
-      media = search_giphy_for get_city
       message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
+      media = search_giphy_for get_city
       end
 
   #end
