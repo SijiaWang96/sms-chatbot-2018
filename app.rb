@@ -11,6 +11,17 @@ end
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
+cities = ["Beijing","Shanghai","Chicago", "New York"]
+
+def get_city
+  return cities.sample
+end
+
+def city_message
+  city = get_city
+  media = search_giphy_for(get_city)
+  return "Guagua sent photos from" + city, media
+end
 
 def first_greeting time
 "</h1><p>My app does xyz. You have visited at " + time.strftime("%A %B %d, %Y %H:%M").to_s + ' .'
@@ -55,7 +66,7 @@ def determine_response body
       message = "I amin Pittsburgh"
       elsif body =="when"
       message ="I was made in Fall 2018."
-      elsif body =="why"
+      elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
       #elsif params[:body] == "fact"
       #  array_of_lines = IO.readlines("fact.txt")
