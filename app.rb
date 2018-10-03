@@ -148,7 +148,6 @@ post "/signup" do
   body: message
   )
   
-  rake send_sms
 	# response if eveything is OK
 	"You're signed up. You'll receive a text message in a few minutes from the bot. "
 end
