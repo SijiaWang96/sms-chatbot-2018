@@ -155,8 +155,8 @@ end
 
 get "/sms/incoming" do
   session["counter"] ||= 1
-  body = params[:Body]||""
-  sender = params[:From]||""
+  body = params[:Body]||
+  sender = params[:From]||
 #  ====== sample
     if session["counter"] == 1
       message = "Hi~ I am Guagua~ Your friend!"
