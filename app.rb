@@ -138,7 +138,7 @@ post "/signup" do
  #elsif params[:first_name].nil? && params[:number].nil?
  #return  "Please input firstname & number ! "
  #else
- rake send_sms
+ #rake send_sms
  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
  message = "Hi," + params[:first_name] + ", welcome to MeBot! I can respond to who, what, where, when and why. If you're stuck, type help."
 
