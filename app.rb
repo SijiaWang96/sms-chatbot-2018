@@ -13,7 +13,7 @@ daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 cities = ["Beijing","Shanghai","Chicago","New York"]
 
-def get_city city
+def get_city
   return cities.sample
 end
 
@@ -83,7 +83,7 @@ def determine_response body
       else
       #media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
-      media = search_giphy_for ( get_city (city) )
+      media = search_giphy_for get_city
       end
 
   #end
@@ -153,8 +153,8 @@ end
 
 get "/sms/incoming" do
   session["counter"] ||= 1
-  body = params[:Body]
-  sender = params[:From]
+  body = params[:Body]||""
+  sender = params[:From]||""
 #  ====== sample
     if session["counter"] == 1
       message = "Hi~ I am Guagua~ Your friend!"
