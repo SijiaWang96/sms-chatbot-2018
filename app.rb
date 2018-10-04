@@ -72,7 +72,7 @@ def determine_response body
       elsif body == "what"
       message ="Respond with an explanation that the bot can be used to ask basic things about you"
       elsif body =="where"
-      message = "I amin Pittsburgh"
+      message = "I am in Pittsburgh"
       elsif body =="when"
       message ="I was made in Fall 2018."
       elsif body == "why"
@@ -81,10 +81,10 @@ def determine_response body
       # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
-      #media = search_giphy_for body
+      media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
       #media = search_giphy_for get_city
-      city_message body
+      #city_message body
 
       end
 
