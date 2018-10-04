@@ -12,11 +12,14 @@ enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 cities = ["Beijing","Shanghai","Chicago","New York"]
-city = cities.sample
+
+def city_sample
+return city = cities.sample
+end
 
 def city_message body
-  message= "Guagua sent photos from" + city.to_s
-  media = search_giphy_for(city)
+  message = "Guagua sent photos from" + city_sample.to_s
+  media = search_giphy_for(city_sample)
 end
 
 def first_greeting time
