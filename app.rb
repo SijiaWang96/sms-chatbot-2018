@@ -13,14 +13,14 @@ daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 cities = ["Beijing","Shanghai","Chicago","New York"]
 
-def city_sample city
+def city_sample
 city = cities.sample
 return city
 end
 
 def city_message body
   message = "Guagua sent photos from" + city_sample.to_s
-  media = search_giphy_for ( city_sample (city) )
+  media = search_giphy_for ( city_sample )
 end
 
 def first_greeting time
@@ -82,14 +82,12 @@ def determine_response body
       #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
       else
       media = search_giphy_for body
-      #message = "Guagua is traveling. Sent you a photo from" + get_city.to_s
+      message = "Guagua is traveling. Sent you a photo from..."
       #media = search_giphy_for get_city
       #city_message body
-
       end
 
   #end
-
   return message, media
 
 end
