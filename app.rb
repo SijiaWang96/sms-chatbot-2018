@@ -14,7 +14,7 @@ eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 cities = ["Beijing","Shanghai","Chicago","New York"]
 hi_words = ["hi", "hello", "hey"]
 
-def include_words sentence, words
+def if_include_words sentence, words
   words.each do |word|
 		if sentence.include? word
 			return true
@@ -64,7 +64,6 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
-
   #if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   #message = "Guagua is eating breakfast!"
   #elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
@@ -74,8 +73,7 @@ def determine_response body
   #elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   #message = "Guagua is sleeping!"
   #else
-
-      if body == "hi" or include_words body, hi_words
+      if body == "hi" or if_include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
@@ -176,8 +174,6 @@ get "/sms/incoming" do
     end
 
 #  message = "testtttt!"
-
-
 
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
