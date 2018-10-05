@@ -1,10 +1,11 @@
+require 'sinatra'
 require 'twilio-ruby'
 require 'giphy'
 require 'rake'
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
 
-if development？
+configure :development do
   require 'dotenv'
   Dotenv.load
 end
