@@ -3,8 +3,11 @@ require 'giphy'
 require 'rake'
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
+
+if development？
   require 'dotenv'
   Dotenv.load
+end
 
 def search_giphy_for query
 
@@ -30,7 +33,7 @@ def city_message
 
     cities = ["Beijing","Shanghai","Chicago","New York"]
     city = cities.sample
-    message = "Guagua sent photos from" + city.to_s
+    message = "Guagua sent photos from " + city.to_s
     media = search_giphy_for (city.to_s)
     return message, media
 
