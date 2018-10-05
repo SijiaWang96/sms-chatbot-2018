@@ -2,6 +2,7 @@ require 'sinatra'
 require "sinatra/reloader" if development?
 require 'twilio-ruby'
 require 'giphy'
+require 'rake'
 
 configure :development do
   require 'dotenv'
