@@ -1,14 +1,10 @@
-require "sinatra"
-require "sinatra/reloader" if development?
 require 'twilio-ruby'
 require 'giphy'
 require 'rake'
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
-configure :development do
   require 'dotenv'
   Dotenv.load
-end
 
 def search_giphy_for query
 
@@ -40,7 +36,6 @@ def city_message
 
 end
 
-end
 desc 'outputs hello world to the terminal'
 task :hello_world do
   puts "Hello World from Rake!"
@@ -55,12 +50,13 @@ task :send_sms do
  # this will send a message from any end point
    client.api.account.messages.create(
    from: ENV["TWILIO_FROM"],
-   to: ENV["MY_NUMBER"]
+   to: ENV["MY_NUMBER"],
    body: message
    )
 
 end
 
+desc 'sends a test MMS to your twilio number'
 task :send_photo do
 
   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
@@ -69,8 +65,9 @@ task :send_photo do
 
    client.api.account.messages.create(
    from: ENV["TWILIO_FROM"],
-   to: ENV["CABBAGE_NUMBER"]
-   body: message,media
+   to: ENV["MY_NUMBER"],
+   body: message,
+   media: media
    )
 
 end
