@@ -79,7 +79,7 @@ def determine_response body
   else
 
       if body == "hi" or include_words body, hi_words
-      message = "Hi, I am Guagua!"
+      message = "Hi,I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
