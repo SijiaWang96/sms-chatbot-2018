@@ -29,9 +29,10 @@ def city_sample
  return city
 end
 
-def city_message haha
+def city_message
   message = "Guagua sent photos from" + city_sample.to_s
-  media = nil
+  media = search_giphy_for (city_sample.to_s)
+  return message, media
 end
 
 def first_greeting time
@@ -75,7 +76,7 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
-    
+
       if body == "hi" or include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
@@ -92,9 +93,9 @@ def determine_response body
       # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s
       else
-      #media = search_giphy_for body
+      media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from..."
-      city_message body
+      #city_message body
       end
 
   end
