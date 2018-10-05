@@ -11,8 +11,8 @@ end
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
-cities = ["Beijing","Shanghai","Chicago","New York"]
 hi_words = ["hi", "hello", "hey"]
+
 
 def if_include_words sentence, words
   words.each do |word|
@@ -24,11 +24,12 @@ def if_include_words sentence, words
 end
 
 def city_sample
+cities = ["Beijing","Shanghai","Chicago","New York"]
 city = cities.sample
 return city
 end
 
-def city_message body
+def city_message
   message = "Guagua sent photos from" + city_sample.to_s
   media = search_giphy_for ( city_sample )
 end
@@ -92,10 +93,11 @@ def determine_response body
       # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s
       else
-      media = search_giphy_for body
-      message = "Guagua is traveling. Sent you a photo from..."
+      #media = search_giphy_for body
+      #message = "Guagua is traveling. Sent you a photo from..."
       #media = search_giphy_for get_city
-      #city_message body
+      city_message body
+
       end
 
   end
