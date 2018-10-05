@@ -67,7 +67,7 @@ task :send_photo do
    from: ENV["TWILIO_FROM"],
    to: ENV["MY_NUMBER"],
    body: message,
-   media: media
+   media_url: media
    )
 
 end
