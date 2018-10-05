@@ -70,8 +70,9 @@ def determine_response body
   message = " "
   media = nil
   hi_words = ["hi", "hello", "hey", "yo", "what's up"]
-  who_words =[]
-  what_words = []
+  who_words =["who"]
+  what_words =["what", "help", "feature", "function", "guide"]
+  when_words = ["when", "created", "born", "made"]
 
   if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   message = "Guagua is eating breakfast!"
@@ -85,7 +86,7 @@ def determine_response body
 
       if body == "hi" or include_words body, hi_words
       message = "Hi,I am Guagua!"
-      elsif body == "who"
+    elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
       message ="Respond with an explanation that the bot can be used to ask basic things about you"
