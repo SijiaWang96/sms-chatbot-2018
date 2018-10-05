@@ -64,15 +64,15 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
-  #if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
-  #message = "Guagua is eating breakfast!"
-  #elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  #message = "Guagua is eating lunch!"
-  #elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
-  #message = "Guagua is eating lunch!"
-  #elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
-  #message = "Guagua is sleeping!"
-  #else
+  if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
+  message = "Guagua is eating breakfast!"
+  elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  message = "Guagua is eating lunch!"
+  elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
+  message = "Guagua is eating lunch!"
+  elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
+  message = "Guagua is sleeping!"
+  else
       if body == "hi"
         #or if_include_words body, hi_words
       message = "Hi, I am Guagua!"
@@ -96,7 +96,7 @@ def determine_response body
       #city_message body
       end
 
-  #end
+  end
   return message, media
 
 end
