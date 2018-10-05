@@ -11,10 +11,10 @@ end
 enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
-hi_words = ["hi", "hello", "hey"]
 
 
-def if_include_words sentence, words
+
+def include_words sentence, words
   words.each do |word|
 		if sentence.include? word
 			return true
@@ -29,10 +29,9 @@ def city_sample
  return city
 end
 
-def city_message
+def city_message haha
   message = "Guagua sent photos from" + city_sample.to_s
-  media = search_giphy_for (city_sample.to_s)
-  return message,media
+  media = nil
 end
 
 def first_greeting time
@@ -66,7 +65,7 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
-
+  hi_words = ["hi", "hello", "hey"]
   if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   message = "Guagua is eating breakfast!"
   elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
@@ -76,9 +75,8 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
-
-      if body == "hi"
-      #or if_include_words body, hi_words
+    
+      if body == "hi" or include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
@@ -96,14 +94,11 @@ def determine_response body
       else
       #media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from..."
-      #media = search_giphy_for get_city
-      city_message
-
+      city_message body
       end
 
   end
   return message, media
-
 end
 # conversation design
 

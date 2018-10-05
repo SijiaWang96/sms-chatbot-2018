@@ -17,13 +17,15 @@ end
 
 desc 'sends a test SMS to your twilio number'
 task :send_sms do
+
   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-  message = "Hi," + params[:first_name] + ", I am Guagua"
+  message = "Hi, I am Guagua!"
 
  # this will send a message from any end point
    client.api.account.messages.create(
    from: ENV["TWILIO_FROM"],
-   to: params[:number],
+   to: ENV["MY_NUMBER"]
    body: message
    )
+
 end
