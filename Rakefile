@@ -75,3 +75,19 @@ task :send_photo do
    )
 
 end
+
+desc 'sends a test MMS to TROY number'
+task :send_photo_troy do
+
+  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+  message, media = city_message
+
+
+  client.api.account.messages.create(
+   from: ENV["TWILIO_FROM"],
+   to: ENV["TROY_NUMBER"],
+   body: message,
+   media_url: media
+   )
+
+end
