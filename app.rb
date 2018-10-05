@@ -24,15 +24,17 @@ def include_words sentence, words
 	return false
 end
 
-def city_sample
+#def city_sample
  cities = ["Beijing","Shanghai","Chicago","New York"]
  city = cities.sample
- return city
-end
+ #return city
+#end
 
 def city_message
-  message = "Guagua sent photos from" + city_sample.to_s
-  media = search_giphy_for (city_sample.to_s)
+  cities = ["Beijing","Shanghai","Chicago","New York"]
+  city = cities.sample
+  message = "Guagua sent photos from " + city.to_s
+  media = search_giphy_for (city.to_s)
   return message, media
 end
 
@@ -67,7 +69,10 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
-  hi_words = ["hi", "hello", "hey"]
+  hi_words = ["hi", "hello", "hey", "yo", "what's up"]
+  who_words =[]
+  what_words = []
+
   if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   message = "Guagua is eating breakfast!"
   elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
@@ -87,16 +92,16 @@ def determine_response body
       elsif body =="where"
       message = "I am in Pittsburgh"
       elsif body =="when"
-      message ="I was made in Fall 2018."
+      message ="I was born in 1996."
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
       #elsif body == "fact"
       # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s
       else
-      media = search_giphy_for body
+      #media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from..."
-      #city_message body
+      message, media = city_message
       end
 
   end

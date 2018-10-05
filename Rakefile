@@ -10,6 +10,37 @@ configure :development do
   Dotenv.load
 end
 
+def search_giphy_for query
+
+  Giphy::Configuration.configure do |config|
+    config.api_key = ENV["GIPHY_API_KEY"]
+  end
+
+  results = Giphy.search(query, {limit: 20})
+
+  unless results.empty?
+    #puts results.to_yaml
+    gif = results.sample.original_image.url
+    return gif.to_s
+  else
+    return nil
+  end
+
+end
+
+
+
+def city_message
+
+    cities = ["Beijing","Shanghai","Chicago","New York"]
+    city = cities.sample
+    message = "Guagua sent photos from" + city_sample.to_s
+    media = search_giphy_for (city_sample.to_s)
+    return message, media
+
+end
+
+end
 desc 'outputs hello world to the terminal'
 task :hello_world do
   puts "Hello World from Rake!"
@@ -26,6 +57,20 @@ task :send_sms do
    from: ENV["TWILIO_FROM"],
    to: ENV["MY_NUMBER"]
    body: message
+   )
+
+end
+
+task :send_photo do
+
+  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+  message, media = city_message
+
+
+   client.api.account.messages.create(
+   from: ENV["TWILIO_FROM"],
+   to: ENV["MY_NUMBER"]
+   body: message,media
    )
 
 end
