@@ -16,6 +16,7 @@ task :hello_world do
 end
 
 desc 'sends a test SMS to your twilio number'
+
 task :send_sms do
 
   client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
