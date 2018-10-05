@@ -12,6 +12,16 @@ enable :sessions
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 cities = ["Beijing","Shanghai","Chicago","New York"]
+hi_words = ["hi", "hello", "hey"]
+
+def include_words sentence, words
+  words.each do |word|
+		if sentence.include? word
+			return true
+		end
+	end
+	return false
+end
 
 def city_sample
 city = cities.sample
@@ -65,7 +75,7 @@ def determine_response body
   #message = "Guagua is sleeping!"
   #else
 
-      if body == "hi"
+      if body == "hi" or include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
