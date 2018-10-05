@@ -73,7 +73,8 @@ def determine_response body
   #elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   #message = "Guagua is sleeping!"
   #else
-      if body == "hi" or if_include_words body, hi_words
+      if body == "hi"
+        #or if_include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
