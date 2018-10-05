@@ -31,7 +31,7 @@ end
 
 def city_message
   message = "Guagua sent photos from" + city_sample.to_s
-  media = search_giphy_for ( city_sample )
+  media = search_giphy_for ( city_sample.to_s )
 end
 
 def first_greeting time
@@ -96,7 +96,7 @@ def determine_response body
       #media = search_giphy_for body
       #message = "Guagua is traveling. Sent you a photo from..."
       #media = search_giphy_for get_city
-      city_message body
+      city_message
 
       end
 
