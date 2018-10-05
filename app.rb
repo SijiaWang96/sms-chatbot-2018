@@ -64,6 +64,7 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
+
   if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   message = "Guagua is eating breakfast!"
   elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
@@ -73,8 +74,9 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
+
       if body == "hi"
-        #or if_include_words body, hi_words
+      #or if_include_words body, hi_words
       message = "Hi, I am Guagua!"
       elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
@@ -86,9 +88,9 @@ def determine_response body
       message ="I was made in Fall 2018."
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
-      #elsif params[:body] == "fact"
+      #elsif body == "fact"
       # array_of_lines = IO.readlines("fact.txt")
-      #  message = array_of_lines.sample(1).to_s + " "+ "<h1><p>lol"
+      #  message = array_of_lines.sample(1).to_s
       else
       media = search_giphy_for body
       message = "Guagua is traveling. Sent you a photo from..."
