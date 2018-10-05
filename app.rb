@@ -99,9 +99,9 @@ def determine_response body
       # array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s
       else
-      #media = search_giphy_for body
-      #message = "Guagua is traveling. Sent you a photo from..."
-      message, media = city_message
+      media = search_giphy_for body
+      message = "Guagua is traveling..."
+      #message, media = city_message
       end
 
   end

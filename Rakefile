@@ -34,8 +34,8 @@ def city_message
 
     cities = ["Beijing","Shanghai","Chicago","New York"]
     city = cities.sample
-    message = "Guagua sent photos from" + city_sample.to_s
-    media = search_giphy_for (city_sample.to_s)
+    message = "Guagua sent photos from" + city.to_s
+    media = search_giphy_for (city.to_s)
     return message, media
 
 end
@@ -69,7 +69,7 @@ task :send_photo do
 
    client.api.account.messages.create(
    from: ENV["TWILIO_FROM"],
-   to: ENV["MY_NUMBER"]
+   to: ENV["CABBAGE_NUMBER"]
    body: message,media
    )
 
