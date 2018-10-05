@@ -24,14 +24,15 @@ def if_include_words sentence, words
 end
 
 def city_sample
-cities = ["Beijing","Shanghai","Chicago","New York"]
-city = cities.sample
-return city
+ cities = ["Beijing","Shanghai","Chicago","New York"]
+ city = cities.sample
+ return city
 end
 
 def city_message
   message = "Guagua sent photos from" + city_sample.to_s
-  media = search_giphy_for ( city_sample.to_s )
+  media = search_giphy_for (city_sample.to_s)
+  return message,media
 end
 
 def first_greeting time
