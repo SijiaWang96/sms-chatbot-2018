@@ -4,7 +4,7 @@ require 'twilio-ruby'
 require "unsplash"
 require 'giphy'
 require 'rake'
-require "securerandom"
+
 
 enable :sessions
 
@@ -70,7 +70,7 @@ def detect_intent_texts project_id:, session_id:, texts:, language_code:
   # [END dialogflow_detect_intent_text]
 end
 
-enable :sessions
+
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 
@@ -150,10 +150,10 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
-      if intent == "HiIntent"
-      message = "Hi,I am Guagua!"
-      #if body == "hi" or include_words body, hi_words
+      #if intent == "HiIntent"
       #message = "Hi,I am Guagua!"
+      if body == "hi" or include_words body, hi_words
+      message = "Hi,I am Guagua!"
       #elsif body == "who"
       #message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       #elsif body == "what"
