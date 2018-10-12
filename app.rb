@@ -5,6 +5,7 @@ require 'giphy'
 require 'rake'
 require "securerandom"
 
+enable :sessions
 configure :development do
   require 'dotenv'
   Dotenv.load
