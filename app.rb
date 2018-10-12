@@ -4,7 +4,7 @@ require 'twilio-ruby'
 require "unsplash"
 require 'giphy'
 require 'rake'
-
+require 'google-cloud-dialogflow'
 
 enable :sessions
 
