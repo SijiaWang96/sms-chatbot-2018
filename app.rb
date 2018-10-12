@@ -124,7 +124,7 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
-      if intent == "We"
+      if intent == "HiIntent"
       message = hi_words.sample + ", I am Guagua!"
       #if body == "hi" or include_words body, hi_words
       #message = "Hi,I am Guagua!"
