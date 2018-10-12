@@ -1,16 +1,49 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'twilio-ruby'
+
 require 'giphy'
 require 'rake'
 require "securerandom"
 
 enable :sessions
+
 configure :development do
   require 'dotenv'
   Dotenv.load
 end
+require 'unsplash'
 
+get "/test/unsplash/:term" do
+
+
+  Unsplash.configure do |config|
+    config.application_access_key = ENV['UNSPLASH_ACCESS']
+    config.application_secret = ENV['UNSPLASH_SECRET']
+    config.utm_source = "ExampleAppForClass"
+  end
+
+  search_term = "beach"
+  search_term = params[:term] # use the provided search term
+  # search for whatever search term, give 1 page of results, with 3 results per page
+  search_results = Unsplash::Photo.search( search_term, 1, 3)
+  puts search_results.to_json
+  images = ""
+  puts search_results.size
+  search_results.each do |result|
+    #puts result.to_json
+  puts "Result"
+  image_thumb = result["urls"]["thumb"]
+    puts result["urls"]["thumb"].to_json
+    image_description = result["description"].to_s
+    images += "<img src='#{ image_thumb.to_s }' /><br/>"
+    images += image_description.to_s + "<br/><br/>"
+    images += "<hr/>"
+  end
+
+  images
+
+end
 def detect_intent_texts project_id:, session_id:, texts:, language_code:
   # [START dialogflow_detect_intent_text]
   # project_id = "Your Google Cloud project ID"
