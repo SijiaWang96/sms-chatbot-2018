@@ -125,7 +125,7 @@ def determine_response body
   message = "Guagua is sleeping!"
   else
       if intent == "HiIntent"
-      message = response
+      message = "Hi,I am Guagua!"
       #if body == "hi" or include_words body, hi_words
       #message = "Hi,I am Guagua!"
       #elsif body == "who"
