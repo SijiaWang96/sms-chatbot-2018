@@ -1,7 +1,7 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'twilio-ruby'
-
+require "unsplash"
 require 'giphy'
 require 'rake'
 require "securerandom"
@@ -12,7 +12,7 @@ configure :development do
   require 'dotenv'
   Dotenv.load
 end
-require 'unsplash'
+
 
 get "/test/unsplash/:term" do
 
