@@ -10,9 +10,3 @@ gem 'rake'
 gem 'unsplash'
 
 gem 'google-cloud-dialogflow', '~> 0.2.2'
-
-group :test do
-  gem "rspec"
-  gem "rspec-retry"
-  gem "google-cloud-storage"
-end
