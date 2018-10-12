@@ -3,10 +3,45 @@ require "sinatra/reloader" if development?
 require 'twilio-ruby'
 require 'giphy'
 require 'rake'
+require 'unsplash'
+require "securerandom"
 
 configure :development do
   require 'dotenv'
   Dotenv.load
+end
+
+Unsplash.configure do |config|
+  config.application_access_key = ENV["UNSPLASH_ACCESS"]
+  config.application_secret = ENV["UNSPLESH_SECRET"]
+#  config.application_redirect_uri = "https://your-application.com/oauth/callback"
+#  config.utm_source = "GUAGUA"
+end
+
+def detect_intent_texts project_id:, session_id:, texts:, language_code:
+  # [START dialogflow_detect_intent_text]
+  # project_id = "Your Google Cloud project ID"
+  # session_id = "mysession"
+  # texts = "hello", "book a meeting room"]
+  # language_code = "en-US"
+
+  require "google/cloud/dialogflow"
+
+  session_client = Google::Cloud::Dialogflow::Sessions.new
+  session = session_client.class.session_path ENV["GOOGLE_CLOUD_PROJECT_ID"], session_id
+  puts "Session path: #{session}"
+
+  texts.each do |text|
+    query_input = { text: { text: text, language_code: language_code } }
+    response = session_client.detect_intent session, query_input
+    query_result = response.query_result
+
+    puts "Query text:        #{query_result.query_text}"
+    puts "Intent detected:   #{query_result.intent.display_name}"
+    puts "Intent confidence: #{query_result.intent_detection_confidence}"
+    puts "Fulfillment text:  #{query_result.fulfillment_text}\n"
+  end
+  # [END dialogflow_detect_intent_text]
 end
 
 enable :sessions
@@ -69,6 +104,12 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
+  project_id = ENV["GOOGLE_CLOUD_PROJECT_ID"]
+  intent = detect_intent_texts project_id: project_id,
+                        session_id: SecureRandom.uuid,
+                        texts: [body],
+                        language_code:"en-US"
+
   hi_words = ["hi", "hello", "hey", "yo", "what's up"]
   who_words =["who"]
   what_words =["what", "help", "feature", "function", "guide"]
@@ -83,10 +124,11 @@ def determine_response body
   elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
   else
-
-      if body == "hi" or include_words body, hi_words
-      message = "Hi,I am Guagua!"
-    elsif body == "who"
+      if intent == "We"
+      message = hi_words.sample + ", I am Guagua!"
+      #if body == "hi" or include_words body, hi_words
+      #message = "Hi,I am Guagua!"
+      elsif body == "who"
       message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what"
       message ="Respond with an explanation that the bot can be used to ask basic things about you"
