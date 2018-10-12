@@ -4,7 +4,6 @@ require 'twilio-ruby'
 require "unsplash"
 require 'giphy'
 require 'rake'
-require 'google-cloud-dialogflow'
 
 enable :sessions
 
@@ -44,14 +43,13 @@ get "/test/unsplash/:term" do
   images
 
 end
+
 def detect_intent_texts project_id:, session_id:, texts:, language_code:
   # [START dialogflow_detect_intent_text]
   # project_id = "Your Google Cloud project ID"
   # session_id = "mysession"
   # texts = "hello", "book a meeting room"]
   # language_code = "en-US"
-
-  require "google/cloud/dialogflow"
 
   session_client = Google::Cloud::Dialogflow::Sessions.new
   session = session_client.class.session_path ENV["GOOGLE_CLOUD_PROJECT_ID"], session_id
@@ -154,21 +152,20 @@ def determine_response body
       #message = "Hi,I am Guagua!"
       if body == "hi" or include_words body, hi_words
       message = "Hi,I am Guagua!"
-      #elsif body == "who"
-      #message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
-      #elsif body == "what"
-      #message ="Respond with an explanation that the bot can be used to ask basic things about you"
-      #elsif body =="where"
-      #message = "I am in Pittsburgh"
-      #elsif body =="when"
-      #message ="I was born in 1996."
-      #elsif body == "why"
-      #message = "I was made for a class project in CMU programing for online prototypes."
+      elsif body == "who"
+      message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+      elsif body == "what"
+      message ="Respond with an explanation that the bot can be used to ask basic things about you"
+      elsif body =="where"
+      message = "I am in Pittsburgh"
+      elsif body =="when"
+      message ="I was born in 1996."
+      elsif body == "why"
+      message = "I was made for a class project in CMU programing for online prototypes."
       #elsif body == "fact"
-      # array_of_lines = IO.readlines("fact.txt")
+       #array_of_lines = IO.readlines("fact.txt")
       #  message = array_of_lines.sample(1).to_s
       else
-      media = search_giphy_for body
       message = "Guagua is traveling..."
       #message, media = city_message
       end
