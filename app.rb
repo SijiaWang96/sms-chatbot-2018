@@ -3,19 +3,11 @@ require "sinatra/reloader" if development?
 require 'twilio-ruby'
 require 'giphy'
 require 'rake'
-require 'unsplash'
 require "securerandom"
 
 configure :development do
   require 'dotenv'
   Dotenv.load
-end
-
-Unsplash.configure do |config|
-  config.application_access_key = ENV["UNSPLASH_ACCESS"]
-  config.application_secret = ENV["UNSPLESH_SECRET"]
-#  config.application_redirect_uri = "https://your-application.com/oauth/callback"
-#  config.utm_source = "GUAGUA"
 end
 
 def detect_intent_texts project_id:, session_id:, texts:, language_code:
