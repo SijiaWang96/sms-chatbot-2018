@@ -3,6 +3,7 @@ require 'twilio-ruby'
 require 'giphy'
 require 'rake'
 require "unsplash"
+require 'httparty'
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
 
@@ -11,13 +12,13 @@ configure :development do
   Dotenv.load
 end
 
-def search_giphy_for query
+def search_giphy_for photo
 
   Giphy::Configuration.configure do |config|
     config.api_key = ENV["GIPHY_API_KEY"]
   end
 
-  results = Giphy.search(query, {limit: 20})
+  results = Giphy.search(photo, {limit: 20})
 
   unless results.empty?
     #puts results.to_yaml
@@ -37,28 +38,31 @@ def search_unsplash_for response
     config.utm_source = "ExampleAppForClass"
   end
 
-  search_results = Unsplash::Photo.search( response, 1, 1)
+  search_results = Unsplash::Photo.search( response )
   puts search_results.to_json
   media = ""
   message = ""
   puts search_results.size
-  search_results.each do |result|
+  oneresult = search_results.sample
     #puts result.to_json
   puts "Result"
-  message = "GuaGua sent you photo from "+ query.to_s + ". This is " + result["description"].to_s + "."
-  media_thumb = result["urls"]["thumb"]
-    puts result["urls"]["thumb"].to_json
-    media += "<img src='#{ media_thumb.to_s }' /><br/>"
+  unless oneresult["description"].to_s.empty?
+    message = "GuaGua sent you photo from "+ response.to_s + ". This is " + oneresult["description"].to_s + "."
+  else
+    message = "GuaGua sent you photo from "+ response.to_s
   end
+  media = oneresult["urls"]["thumb"].to_s
   return message, media
 
 end
 
 
 def city_message
-    cities = ["Beijing","Shanghai","Chicago","New York"]
+    cities = ["Beijing","Shanghai","New York","Chicago","Tokyo","Sydeny","Pittsburgh","Los Angeles","San Francisco","Atlanta"]
+    #cities = ["Chicago", "Food"]
     city = cities.sample
     message, media = search_unsplash_for (city.to_s)
+    #message = "GuaGua sent you photo form " + city.to_s
     return message, media
 end
 

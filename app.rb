@@ -4,7 +4,7 @@ require 'twilio-ruby'
 require "unsplash"
 require 'giphy'
 require 'rake'
-
+require 'httparty'
 enable :sessions
 
 configure :development do
@@ -21,7 +21,7 @@ def search_unsplash_for query
     config.utm_source = "ExampleAppForClass"
   end
 
-  search_results = Unsplash::Photo.search( query, 1, 1)
+  search_results = Unsplash::Photo.search( query, 1, 10)
   puts search_results.to_json
   media = ""
   message = ""
@@ -30,9 +30,7 @@ def search_unsplash_for query
     #puts result.to_json
   puts "Result"
   message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s
-  media_thumb = result["urls"]["thumb"]
-    puts result["urls"]["thumb"].to_json
-    media += "<img src='#{ media_thumb.to_s }' /><br/>"
+  media = result["urls"]["thumb"].to_s
   end
   return message, media
 
@@ -56,7 +54,6 @@ get "/test/unsplash/:term" do
   search_results = Unsplash::Photo.search( search_term, 1, 1)
   puts search_results.to_json
   images = ""
-  puts search_results.size
   search_results.each do |result|
     #puts result.to_json
   puts "Result"
@@ -157,22 +154,21 @@ def determine_response body
                       #  texts: [body],
                       #  language_code:"en-US"
 
-  hi_words = ["hi", "hello", "hey", "yo", "what's up"]
-  who_words =["who"]
-  what_words =["what", "help", "feature", "function", "guide"]
-  when_words = ["when", "created", "born", "made"]
-  keywords= ['blood','butterfly']
-  #if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
-  #message = "Guagua is eating breakfast!"
-  #elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  #message = "Guagua is eating lunch!"
-  #elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
-  #message = "Guagua is eating lunch!"
-  #elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
-  #message = "Guagua is sleeping!"
-  #else
-      #if intent == "HiIntent"
-      #message = "Hi,I am Guagua!"
+  #hi_words = ["hi", "hello", "hey", "yo", "what's up"]
+  #who_words =["who"]
+  #what_words =["what", "help", "feature", "function", "guide"]
+  #when_words = ["when", "created", "born", "made"]
+  #keywords= ['blood','butterfly']
+
+  if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
+  message = "Guagua is eating breakfast!"
+  elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  message = "Guagua is eating lunch!"
+  elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
+  message = "Guagua is eating dinner!"
+  elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
+  message = "Guagua is sleeping!"
+  else
 
       if body == "hi"
       message = "Hi,I am Guagua!"
@@ -193,7 +189,7 @@ def determine_response body
       message, media = search_unsplash_for body
       end
 
-#  end
+  end
   return message, media
 end
 # conversation design
