@@ -13,6 +13,34 @@ configure :development do
 end
 
 
+def search_unsplash_for query
+
+  Unsplash.configure do |config|
+    config.application_access_key = ENV['UNSPLASH_ACCESS']
+    config.application_secret = ENV['UNSPLASH_SECRET']
+    config.utm_source = "ExampleAppForClass"
+  end
+
+  search_results = Unsplash::Photo.search( query, 1, 1)
+  puts search_results.to_json
+  media = ""
+  message = ""
+  puts search_results.size
+  search_results.each do |result|
+    #puts result.to_json
+  puts "Result"
+  message = "GuaGua sent you photo from "+ query.to_s + ". This is " + result["description"].to_s + "."
+  media_thumb = result["urls"]["thumb"]
+    puts result["urls"]["thumb"].to_json
+    media += "<img src='#{ media_thumb.to_s }' /><br/>"
+  end
+  return message, media
+
+
+end
+
+
+
 get "/test/unsplash/:term" do
 
 
@@ -25,7 +53,7 @@ get "/test/unsplash/:term" do
   search_term = "beach"
   search_term = params[:term] # use the provided search term
   # search for whatever search term, give 1 page of results, with 3 results per page
-  search_results = Unsplash::Photo.search( search_term, 1, 3)
+  search_results = Unsplash::Photo.search( search_term, 1, 1)
   puts search_results.to_json
   images = ""
   puts search_results.size
@@ -36,11 +64,9 @@ get "/test/unsplash/:term" do
     puts result["urls"]["thumb"].to_json
     image_description = result["description"].to_s
     images += "<img src='#{ image_thumb.to_s }' /><br/>"
-    images += image_description.to_s + "<br/><br/>"
     images += "<hr/>"
   end
-
-  images
+  return images
 
 end
 
@@ -74,6 +100,7 @@ eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 
 
 
+
 def include_words sentence, words
   words.each do |word|
 		if sentence.include? word
@@ -83,11 +110,7 @@ def include_words sentence, words
 	return false
 end
 
-#def city_sample
- cities = ["Beijing","Shanghai","Chicago","New York"]
- city = cities.sample
- #return city
-#end
+
 
 def city_message
   cities = ["Beijing","Shanghai","Chicago","New York"]
@@ -128,28 +151,29 @@ def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
-  project_id = ENV["GOOGLE_CLOUD_PROJECT_ID"]
-  intent = detect_intent_texts project_id: project_id,
-                        session_id: SecureRandom.uuid,
-                        texts: [body],
-                        language_code:"en-US"
+  #project_id = ENV["GOOGLE_CLOUD_PROJECT_ID"]
+  #intent = detect_intent_texts project_id: project_id,
+                      #  session_id: SecureRandom.uuid,
+                      #  texts: [body],
+                      #  language_code:"en-US"
 
   hi_words = ["hi", "hello", "hey", "yo", "what's up"]
   who_words =["who"]
   what_words =["what", "help", "feature", "function", "guide"]
   when_words = ["when", "created", "born", "made"]
-
-  if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
-  message = "Guagua is eating breakfast!"
-  elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  message = "Guagua is eating lunch!"
-  elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
-  message = "Guagua is eating lunch!"
-  elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
-  message = "Guagua is sleeping!"
-  else
+  keywords= ['blood','butterfly']
+  #if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
+  #message = "Guagua is eating breakfast!"
+  #elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  #message = "Guagua is eating lunch!"
+  #elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
+  #message = "Guagua is eating lunch!"
+  #elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
+  #message = "Guagua is sleeping!"
+  #else
       #if intent == "HiIntent"
       #message = "Hi,I am Guagua!"
+
       if body == "hi" or include_words body, hi_words
       message = "Hi,I am Guagua!"
       elsif body == "who"
@@ -162,15 +186,14 @@ def determine_response body
       message ="I was born in 1996."
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
-      #elsif body == "fact"
-       #array_of_lines = IO.readlines("fact.txt")
-      #  message = array_of_lines.sample(1).to_s
+     #elsif body == "happy"
+     #array_of_lines = IO.readlines("happy.txt")
+     #message = array_of_lines.sample.to_s
       else
-      message = "Guagua is traveling..."
-      #message, media = city_message
+      message, media = search_unsplash_for body
       end
 
-  end
+#  end
   return message, media
 end
 # conversation design
