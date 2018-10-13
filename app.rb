@@ -29,7 +29,7 @@ def search_unsplash_for query
   search_results.each do |result|
     #puts result.to_json
   puts "Result"
-  message = "GuaGua sent you photo from "+ query.to_s + ". This is " + result["description"].to_s + "."
+  message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s
   media_thumb = result["urls"]["thumb"]
     puts result["urls"]["thumb"].to_json
     media += "<img src='#{ media_thumb.to_s }' /><br/>"

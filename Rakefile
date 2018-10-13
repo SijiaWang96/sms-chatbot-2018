@@ -55,7 +55,7 @@ def search_unsplash_for response
 end
 
 
-def city_message 
+def city_message
     cities = ["Beijing","Shanghai","Chicago","New York"]
     city = cities.sample
     message, media = search_unsplash_for (city.to_s)
