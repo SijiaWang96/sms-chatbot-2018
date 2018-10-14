@@ -4,11 +4,7 @@ require 'giphy'
 require 'rake'
 require "unsplash"
 require 'httparty'
-require 'activerecord'
-require 'pg'
-require 'sinatra-activerecord'
-require './app'
-require 'sinatra/activerecord/rake'
+
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
 
