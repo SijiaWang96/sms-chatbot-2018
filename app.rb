@@ -6,6 +6,8 @@ require "unsplash"
 require 'giphy'
 require 'rake'
 require 'httparty'
+require 'rubygems'
+require 'john-doe'
 
 enable :sessions
 
