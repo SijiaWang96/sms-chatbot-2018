@@ -155,16 +155,16 @@ def determine_response body
   #when_words = ["when", "created", "born", "made"]
   #keywords= ['blood','butterfly']
 
-  if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
+  if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
   message = "Guagua is eating breakfast!"
   media = search_giphy_for("breakfast")
-  elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
   message = "Guagua is eating lunch!"
   media = search_giphy_for("lunch")
-  elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
+  elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
   message = "Guagua is eating dinner!"
   media = search_giphy_for("dinner")
-elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<7
+  elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
   message = "Guagua is sleeping!"
   media = search_giphy_for("sleeping")
   else
