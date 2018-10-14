@@ -60,6 +60,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
+    john-doe (0.1.9)
     jwt (1.5.6)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -129,6 +130,7 @@ DEPENDENCIES
   giphy
   google-cloud-dialogflow (~> 0.2.2)
   httparty (= 0.14.0)
+  john-doe (~> 0.1.9)
   pg
   rake
   sinatra

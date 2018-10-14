@@ -6,9 +6,6 @@ require "unsplash"
 require 'giphy'
 require 'rake'
 require 'httparty'
-require 'activerecord'
-require 'pg'
-require 'sinatra-activerecord'
 
 enable :sessions
 
