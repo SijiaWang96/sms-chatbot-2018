@@ -1,17 +1,21 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
+require 'sinatra/activerecord'
 require 'twilio-ruby'
 require "unsplash"
 require 'giphy'
 require 'rake'
 require 'httparty'
+require 'activerecord'
+require 'pg'
+require 'sinatra-activerecord'
+
 enable :sessions
 
 configure :development do
   require 'dotenv'
   Dotenv.load
 end
-
 
 def search_unsplash_for query
 
@@ -34,13 +38,9 @@ def search_unsplash_for query
   end
   return message, media
 
-
 end
 
-
-
 get "/test/unsplash/:term" do
-
 
   Unsplash.configure do |config|
     config.application_access_key = ENV['UNSPLASH_ACCESS']
@@ -94,9 +94,6 @@ end
 
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
-
-
-
 
 def include_words sentence, words
   words.each do |word|
@@ -162,14 +159,17 @@ def determine_response body
 
   if  Time.now.hour.to_i>=7 && Time.now.hour.to_i<9
   message = "Guagua is eating breakfast!"
+  media = search_giphy_for("breakfast")
   elsif Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
   message = "Guagua is eating lunch!"
+  media = search_giphy_for("lunch")
   elsif Time.now.hour.to_i>=18 && Time.now.hour.to_i<20
   message = "Guagua is eating dinner!"
-  elsif Time.now.hour.to_i>=23 && Time.now.hour.to_i<7
+  media = search_giphy_for("dinner")
+elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<7
   message = "Guagua is sleeping!"
+  media = search_giphy_for("sleeping")
   else
-
       if body == "hi"
       message = "Hi,I am Guagua!"
       elsif body == "who"
@@ -271,10 +271,8 @@ get "/sms/incoming" do
   # Build a twilio response object
   twiml = Twilio::TwiML::MessagingResponse.new do |r|
     r.message do |m|
-
       # add the text of the response
       m.body( message )
-
       # add media if it is defined
       unless media.nil?
         m.media( media )

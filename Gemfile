@@ -9,3 +9,6 @@ gem 'rake'
 gem 'httparty', "0.14.0"
 gem "unsplash"
 gem 'google-cloud-dialogflow', '~> 0.2.2'
+gem 'activerecord'
+gem 'pg'
+gem 'sinatra-activerecord'

@@ -1,6 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (5.2.1)
+      activesupport (= 5.2.1)
+    activerecord (5.2.1)
+      activemodel (= 5.2.1)
+      activesupport (= 5.2.1)
+      arel (>= 9.0)
     activesupport (5.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
@@ -8,6 +14,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    arel (9.0.0)
     backports (3.11.4)
     concurrent-ruby (1.0.5)
     dotenv (2.5.0)
@@ -73,6 +80,7 @@ GEM
       rack (>= 1.2, < 3)
     oj (3.6.11)
     os (1.0.0)
+    pg (1.1.3-x64-mingw32)
     public_suffix (3.0.3)
     rack (2.0.5)
     rack-protection (2.0.4)
@@ -89,6 +97,9 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.4)
       tilt (~> 2.0)
+    sinatra-activerecord (2.0.13)
+      activerecord (>= 3.2)
+      sinatra (>= 1.0)
     sinatra-contrib (2.0.4)
       activesupport (>= 4.0.0)
       backports (>= 2.8.2)
@@ -113,12 +124,15 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  activerecord
   dotenv
   giphy
   google-cloud-dialogflow (~> 0.2.2)
   httparty (= 0.14.0)
+  pg
   rake
   sinatra
+  sinatra-activerecord
   sinatra-contrib
   twilio-ruby (> 5.0.0)
   unsplash
