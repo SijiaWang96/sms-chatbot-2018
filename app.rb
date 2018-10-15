@@ -7,13 +7,33 @@ require 'giphy'
 require 'rake'
 require 'httparty'
 
-
-
 enable :sessions
 
 configure :development do
   require 'dotenv'
   Dotenv.load
+end
+
+def what_do_you_like
+  array_of_lines = IO.readlines("what_do_you_like.txt")
+  message = "Em.... "+ array_of_lines.sample.to_s
+  return message
+end
+
+def search_answer_for body
+array_of_lines = IO.readlines("search_for_anwser.txt")
+array_of_lines.each do |line|
+  items=line.split (",")
+    items.each do |item|
+      if body.include? item
+      message = "That's great, Thanks your advice!"
+      #media = search_giphy_for item
+      else
+      message = "I'd better like" + items.sample.to_s
+      end
+      return message
+    end
+  end
 end
 
 def search_unsplash_for query
@@ -155,10 +175,19 @@ def determine_response body
   #what_words =["what", "help", "feature", "function", "guide"]
   #when_words = ["when", "created", "born", "made"]
   #keywords= ['blood','butterfly']
-
-
-
-
+  if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  message = "Guagua is eating breakfast!"
+  media = search_giphy_for("breakfast")
+  elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
+  message = "Guagua is eating lunch!"
+  media = search_giphy_for("lunch")
+  elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
+  message = "Guagua is eating dinner!"
+  media = search_giphy_for("dinner")
+  elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
+  message = "Guagua is sleeping!"
+  media = search_giphy_for("sleeping")
+  else
       if body == "hi"
       message = "Hi,I am Guagua!"
       elsif body == "who"
@@ -171,20 +200,26 @@ def determine_response body
       message ="I was born in 1996."
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
-     #elsif body == "happy"
-     #array_of_lines = IO.readlines("happy.txt")
-     #message = array_of_lines.sample.to_s
-     #最简单的方法：如果你想检测一句话里含不含有某个单词
-      elsif body.include? "happy" || "delighted"
-      message = "you are great!"
-
+      elsif body.include? "bread" || "noodle"
+      message = "That's great, Thanks your advice!"
+      elsif body.include? "t-shirt" || "jacket"
+      message = "Do you want to freeze me?"
+      #elsif body == "happy"
+      #array_of_lines = IO.readlines("happy.txt")
+      #message = array_of_lines.sample.to_s
+      #最简单的方法：如果你想检测一句话里含不含有某个单词
+      #elsif body.include? "happy" || "delighted" ||"satisfied"
+      #message = "you are great!"
       #如果happy的词汇有很多种
-      happy_words=["happy", "delighted","satisfied","chill"]
+      #happy_words=["happy", "delighted","satisfied","chill"]
       else
-      message, media = search_unsplash_for body
+                media = search_giphy_for("confused")
+                message = what_do_you_like
       end
 
 
+    #end
+  end
   return message, media
 end
 # conversation design
