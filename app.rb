@@ -8,6 +8,7 @@ require 'rake'
 require 'httparty'
 
 
+
 enable :sessions
 
 configure :development do
@@ -155,19 +156,9 @@ def determine_response body
   #when_words = ["when", "created", "born", "made"]
   #keywords= ['blood','butterfly']
 
-  if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  message = "Guagua is eating breakfast!"
-  media = search_giphy_for("breakfast")
-  elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
-  message = "Guagua is eating lunch!"
-  media = search_giphy_for("lunch")
-  elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
-  message = "Guagua is eating dinner!"
-  media = search_giphy_for("dinner")
-  elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
-  message = "Guagua is sleeping!"
-  media = search_giphy_for("sleeping")
-  else
+
+
+
       if body == "hi"
       message = "Hi,I am Guagua!"
       elsif body == "who"
@@ -183,11 +174,17 @@ def determine_response body
      #elsif body == "happy"
      #array_of_lines = IO.readlines("happy.txt")
      #message = array_of_lines.sample.to_s
+     #最简单的方法：如果你想检测一句话里含不含有某个单词
+      elsif body.include? "happy" || "delighted"
+      message = "you are great!"
+
+      #如果happy的词汇有很多种
+      happy_words=["happy", "delighted","satisfied","chill"]
       else
       message, media = search_unsplash_for body
       end
 
-  end
+
   return message, media
 end
 # conversation design
