@@ -224,11 +224,11 @@ def determine_response body
             # response here...
             if (body.include? response1) or (body.include? response2)
                 message = reply
-                media  = search_giphy_for ("happy")
+                #media  = search_giphy_for ("happy")
                 #session[:lastquestion] = 0
             else
                message = "I think I will choose " + items[1]
-               media = search_giphy_for ("confused")
+               #media = search_giphy_for ("confused")
                #session[:lastquestion] = 0
             end
 
