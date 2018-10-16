@@ -72,20 +72,20 @@ end
 #  puts "Hello World from Rake!"
 #end
 
-#desc 'sends a test SMS to your twilio number'
-#task :send_sms do
-
+# desc 'sends a test SMS to your twilio number'
+# task :send_sms do
+#
 #  client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 #  message = "Hi, I am Guagua!"
-
- # this will send a message from any end point
+#
+#  this will send a message from any end point
 #   client.api.account.messages.create(
 #   from: ENV["TWILIO_FROM"],
 #   to: ENV["MY_NUMBER"],
 #   body: message
 #   )
-
-#end
+#
+# end
 
 desc 'sends a test MMS to your twilio number'
 task :send_photo do

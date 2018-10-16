@@ -2,3 +2,4 @@ Bread
 Noodle
 T-shirt
 Jacket
+Do you think I should wear today? T-shirt or Jacket?;T-shirt|Jacket|tee|shirt;I think i'll wear that. I'll look nice

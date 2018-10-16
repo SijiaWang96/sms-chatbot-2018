@@ -20,21 +20,21 @@ def what_do_you_like
   return message
 end
 
-def search_answer_for body
-array_of_lines = IO.readlines("search_for_anwser.txt")
-array_of_lines.each do |line|
-  items=line.split (",")
-    items.each do |item|
-      if body.include? item
-      message = "That's great, Thanks your advice!"
-      #media = search_giphy_for item
-      else
-      message = "I'd better like" + items.sample.to_s
-      end
-      return message
-    end
-  end
-end
+# def search_answer_for body
+# array_of_lines = IO.readlines("search_for_anwser.txt")
+# array_of_lines.each d o |line|
+#   items=line.split (";")
+#     items.each do |item|
+#       if body.include? item
+#       message = "That's great, Thanks your advice!"
+#       #media = search_giphy_for item
+#       else
+#       message = "I'd better like" + items.sample.to_s
+#       end
+#       return message
+#     end
+#   end
+# end
 
 def search_unsplash_for query
 
@@ -46,13 +46,14 @@ def search_unsplash_for query
 
   search_results = Unsplash::Photo.search( query, 1, 10)
   puts search_results.to_json
+
   media = ""
   message = ""
   puts search_results.size
   search_results.each do |result|
     #puts result.to_json
   puts "Result"
-  message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s
+  message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s + result["created_at"].to_s
   media = result["urls"]["thumb"].to_s
   end
   return message, media
@@ -114,14 +115,6 @@ end
 daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 
-def include_words sentence, words
-  words.each do |word|
-		if sentence.include? word
-			return true
-		end
-	end
-	return false
-end
 
 
 
@@ -160,27 +153,36 @@ def search_giphy_for query
 
 end
 
+def include_words sentence, words
+  words.each do |word|
+		if sentence.include? word
+			return true
+		end
+	end
+	return false
+end
+
 def determine_response body
   body = body.to_s.downcase.strip
   message = " "
   media = nil
+  session[:lastquestion] ||= 0
   #project_id = ENV["GOOGLE_CLOUD_PROJECT_ID"]
   #intent = detect_intent_texts project_id: project_id,
                       #  session_id: SecureRandom.uuid,
                       #  texts: [body],
                       #  language_code:"en-US"
 
-  #hi_words = ["hi", "hello", "hey", "yo", "what's up"]
-  #who_words =["who"]
-  #what_words =["what", "help", "feature", "function", "guide"]
-  #when_words = ["when", "created", "born", "made"]
-  #keywords= ['blood','butterfly']
+  hi_words = ["hi", "hello", "hey", "yo", "what's up"]
+  who_words =["who"]
+  what_words =["what", "help", "feature", "function", "guide"]
+  when_words = ["when", "created", "born", "made"]
   if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
   message = "Guagua is eating breakfast!"
   media = search_giphy_for("breakfast")
-  elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
-  message = "Guagua is eating lunch!"
-  media = search_giphy_for("lunch")
+  #elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
+  #message = "Guagua is eating lunch!"
+  #media = search_giphy_for("lunch")
   elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
   message = "Guagua is eating dinner!"
   media = search_giphy_for("dinner")
@@ -188,36 +190,84 @@ def determine_response body
   message = "Guagua is sleeping!"
   media = search_giphy_for("sleeping")
   else
-      if body == "hi"
-      message = "Hi,I am Guagua!"
-      elsif body == "who"
-      message = "Hi, I am Guagua！ I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
-      elsif body == "what"
-      message ="Respond with an explanation that the bot can be used to ask basic things about you"
+
+      if body == "hi" or include_words body,hi_words
+      message = hi_words.sample + ", I am Guagua!"
+      elsif body == "who" or include_words body, who_words
+      message = "I am a duck, my name is Guagua. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
+      elsif body == "what" or include_words body, what_words
+      message ="I am a duck like traveling！I will send you photos from all over the world！"
       elsif body =="where"
-      message = "I am in Pittsburgh"
-      elsif body =="when"
-      message ="I was born in 1996."
+      message = "I am traveling all over the world!"
+      elsif body =="when" or include_words body, when_words
+      message ="I was born in 2018."
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
-      elsif body.include? "bread" || "noodle"
-      message = "That's great, Thanks your advice!"
-      elsif body.include? "t-shirt" || "jacket"
-      message = "Do you want to freeze me?"
-      #elsif body == "happy"
-      #array_of_lines = IO.readlines("happy.txt")
-      #message = array_of_lines.sample.to_s
-      #最简单的方法：如果你想检测一句话里含不含有某个单词
-      #elsif body.include? "happy" || "delighted" ||"satisfied"
-      #message = "you are great!"
-      #如果happy的词汇有很多种
-      #happy_words=["happy", "delighted","satisfied","chill"]
-      else
-                media = search_giphy_for("confused")
-                message = what_do_you_like
+      elsif body.include? "boring"
+      message = "Think about your assignments! You have some many things to do!"
+
+      elsif session[:lastquestion] != 0
+
+        array_of_lines = IO.readlines("responses.txt")
+        array_of_lines.each do |line|
+
+          # sampled = "What do you think I should eat for dinner? Bread or Noodles?;Bread;Noodle;Thanks for the advice!"
+          # #sample = sampled.to_s.downcase.strip
+           items = []
+           items = line.split( ";")
+           question = items[0] # question
+           response1 = items[1]
+           response2 = items[2]
+           reply = items[3]
+
+          if (session[:lastquestion] == question) && (items[2] != nil)
+            # response here...
+            if (body.include? response1) or (body.include? response2)
+                message = reply
+                media  = search_giphy_for ("happy")
+                #session[:lastquestion] = 0
+            else
+               message = "I think I will choose " + items[1]
+               media = search_giphy_for ("confused")
+               #session[:lastquestion] = 0
+            end
+
+          # elsif session[:lastquestion] != question
+          #   session[:lastquestion] = 0
+          #
+          # else
+          #   message = session[:lastquestion]
+          end
+
       end
+      session[:lastquestion] = 0
+      #guaguas = []
+      #guaguas = line.split( "is")
+      #media = search_giphy_for (item[1])
+      # message = session[:lastquestion]
 
-
+      #message = "That's great, Thanks your advice!"
+      #elsif body.include? "t-shirt" || "jacket"
+      #message = "Do you want to freeze me?"
+      else
+        #array_of_lines = IO.readlines("what_do_you_like.txt")
+        #question = array_of_lines.sample.to_s
+        #message = "Em.... "+ question
+        array_of_lines = IO.readlines("responses.txt")
+        sampled = array_of_lines.sample.to_s
+        items = []
+        items = sampled.split( ";")
+        question = items[0] # question
+        response1 = items[1]
+        response2 = items[2]
+        reply = items[3]
+        session[:lastquestion] = items[0]
+        # session[:lastquestion_responses1] = response1
+        # session[:lastquestion_responses2] = response2
+        # session[:lastquestion_reply] = reply
+        media = search_giphy_for ("confused")
+        message = "Em.... "+ session[:lastquestion].to_s
+      end
     #end
   end
   return message, media
@@ -248,7 +298,6 @@ get '/about' do
     end
 
 end
-# greeting
 
 get '/signup' do
     erb :signup
@@ -288,6 +337,7 @@ get "/sms/incoming" do
   session["counter"] ||= 1
   body = params[:Body]||""
   sender = params[:From]||""
+  greeting = []
 #  ====== sample
     if session["counter"] == 1
       message = "Hi~ I am Guagua~ Your friend!"
