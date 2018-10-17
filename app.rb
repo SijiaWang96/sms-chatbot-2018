@@ -116,8 +116,6 @@ daytimegreeting = ["<h1>Hi! ", "<h1>Hey! ","<h1>what's up!"]
 eveninggreeting = ["<h1>Good evening! ", "<h1>Evening! "]
 
 
-
-
 def city_message
   cities = ["Beijing","Shanghai","Chicago","New York"]
   city = cities.sample
@@ -173,27 +171,27 @@ def determine_response body
                       #  texts: [body],
                       #  language_code:"en-US"
 
-  hi_words = ["hi", "hello", "hey", "yo", "what's up"]
+  hi_words = ["hi", "hello", "hey", "what's up"]
   who_words =["who"]
   what_words =["what", "help", "feature", "function", "guide"]
   when_words = ["when", "created", "born", "made"]
   if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  message = "[Auto-replying] Guagua is eating breakfast!"
+  message = "[Auto-replying...] Guagua is eating breakfast!"
   media = search_giphy_for("breakfast")
   #elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
   #message = "Guagua is eating lunch!"
   #media = search_giphy_for("lunch")
-  elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
-  message = "[Auto-replying]Guagua is eating dinner!"
+  elsif Time.now.hour.to_i>=22 && Time.now.hour.to_i<24
+  message = "[Auto-replying...]Guagua is eating dinner!"
   media = search_giphy_for("dinner")
   elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
-  message = "[Auto-replying]Guagua is sleeping!"
+  message = "[Auto-replying...]Guagua is sleeping!"
   media = search_giphy_for("sleeping")
   else
 
       if body == "hi" or include_words body,hi_words
       message = hi_words.sample + ", I am Guagua!"
-      elsif body == "who" or include_words body, who_words
+      elsif body.include? "who" or include_words body, who_words
       message = "I am a duck, my name is Guagua. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what" or include_words body, what_words
       message ="I am a duck like traveling！I will send you photos from all over the world！"
@@ -207,11 +205,12 @@ def determine_response body
       message = "Think about your assignments! Go back to work!"
       elsif body.include? "nice"||"intereting" || "amazing"
       message = "I think so!"
+      elsif body.include? "nice"||"intereting" || "amazing"
+      message = "I think so!"
       elsif session[:lastquestion] != 0
 
         array_of_lines = IO.readlines("responses.txt")
         array_of_lines.each do |line|
-
           # sampled = "What do you think I should eat for dinner? Bread or Noodles?;Bread;Noodle;Thanks for the advice!"
           # #sample = sampled.to_s.downcase.strip
            items = []
@@ -340,12 +339,12 @@ get "/sms/incoming" do
   sender = params[:From]||""
   greeting = []
 #  ====== sample
-    if session["counter"] == 1
-      message = "Hi~ I am Guagua~ Your friend!"
-      media = nil
-    else
+    # if session["counter"] == 1
+    #   message = "Hi~ I am Guagua~ Your friend!"
+    #   media = nil
+    # else
       message, media = determine_response body
-    end
+    # end
 
 #  message = "testtttt!"
 
