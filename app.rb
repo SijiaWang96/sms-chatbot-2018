@@ -20,6 +20,17 @@ def what_do_you_like
   return message
 end
 
+def recommend_city
+array_of_lines = IO.readlines("recommend_city.txt")
+sampled = array_of_lines.sample.to_s
+items = []
+items = sampled.split("=")
+city = items[0]
+recommendation = items[1]
+message = "I will recommend " + items[1].to_s
+media = search_unsplash_for (items[0].to_s)
+return message, media
+end
 # def search_answer_for body
 # array_of_lines = IO.readlines("search_for_anwser.txt")
 # array_of_lines.each d o |line|
@@ -44,19 +55,18 @@ def search_unsplash_for query
     config.utm_source = "ExampleAppForClass"
   end
 
-  search_results = Unsplash::Photo.search( query, 1, 10)
+  search_results = Unsplash::Photo.search( query, 1, 1)
   puts search_results.to_json
 
   media = ""
-  message = ""
   puts search_results.size
   search_results.each do |result|
     #puts result.to_json
   puts "Result"
-  message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s + result["created_at"].to_s
+  #message = "GuaGua sent you photo from "+ query.to_s + "." + result["description"].to_s + result["created_at"].to_s
   media = result["urls"]["thumb"].to_s
   end
-  return message, media
+  return media
 
 end
 
@@ -174,39 +184,45 @@ def determine_response body
   hi_words = ["hi", "hello", "hey", "what's up"]
   who_words =["who"]
   what_words =["what", "help", "feature", "function", "guide"]
-  when_words = ["when", "created", "born", "made"]
-  if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  message = "[Auto-replying...] Guagua is eating breakfast!"
-  media = search_giphy_for("breakfast")
-  #elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
-  #message = "Guagua is eating lunch!"
-  #media = search_giphy_for("lunch")
-  elsif Time.now.hour.to_i>=22 && Time.now.hour.to_i<24
-  message = "[Auto-replying...]Guagua is eating dinner!"
-  media = search_giphy_for("dinner")
-  elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
-  message = "[Auto-replying...]Guagua is sleeping!"
-  media = search_giphy_for("sleeping")
-  else
+  when_words = ["when", "created", "born", "made","brith"]
+  # if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
+  # message = "[Auto-replying...] Guagua is eating breakfast!"
+  # media = search_giphy_for("breakfast")
+  # #elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
+  # #message = "Guagua is eating lunch!"
+  # #media = search_giphy_for("lunch")
+  # elsif Time.now.hour.to_i>=22 && Time.now.hour.to_i<24
+  # message = "[Auto-replying...]Guagua is eating dinner!"
+  # media = search_giphy_for("dinner")
+  # elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
+  # message = "[Auto-replying...]Guagua is sleeping!"
+  # media = search_giphy_for("sleeping")
+  # else
 
       if body == "hi" or include_words body,hi_words
       message = hi_words.sample + ", I am Guagua!"
-      elsif body.include? "who" or include_words body, who_words
+      elsif body.include? "who"
       message = "I am a duck, my name is Guagua. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what" or include_words body, what_words
-      message ="I am a duck like traveling！I will send you photos from all over the world！"
+      message ="I am a duck like traveling！I will send you photos from all over the world！
+      And I can recommend you a traveling city. if you type something like “recomme me a city”.
+      Also, I will ask you questions when I am really hard to choose things!"
       elsif body =="where"
       message = "I am traveling all over the world!"
       elsif body =="when" or include_words body, when_words
       message ="I was born in 2018."
-      elsif body == "why"
-      message = "I was made for a class project in CMU programing for online prototypes."
+      elsif body.include?"why"
+      message = "I was made for a class project programing for online prototypes class in CMU."
       elsif body.include? "boring"
       message = "Think about your assignments! Go back to work!"
       elsif body.include? "nice"||"intereting" || "amazing"
       message = "I think so!"
-      elsif body.include? "nice"||"intereting" || "amazing"
-      message = "I think so!"
+      elsif body.include? "haha"||"lol" || "hhh"
+      message = "Is it funny?"
+      elsif body.include? "love you"||"like you" || "miss you"
+      message = "Are you boring now?"
+      elsif body.include? "recommend"||"recommendation"
+      message, media = recommend_city
       elsif session[:lastquestion] != 0
 
         array_of_lines = IO.readlines("responses.txt")
@@ -269,7 +285,7 @@ def determine_response body
         message = "Em.... "+ session[:lastquestion].to_s
       end
     #end
-  end
+  #end
   return message, media
 end
 # conversation design
@@ -339,12 +355,12 @@ get "/sms/incoming" do
   sender = params[:From]||""
   greeting = []
 #  ====== sample
-    # if session["counter"] == 1
-    #   message = "Hi~ I am Guagua~ Your friend!"
-    #   media = nil
-    # else
+    if session["counter"] == 1
+      message = "[Auto-replying...] Hi~ I am Guagua~ Your friend! If you want to know about me, you can type something like “who are you”, “what do you do?”"
+      media = nil
+    else
       message, media = determine_response body
-    # end
+    end
 
 #  message = "testtttt!"
 

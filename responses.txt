@@ -3,4 +3,4 @@ What do you think I should wear today? Jeans or sportty wear?;jeans;sport;I thin
 Which one you think it is better? Apple or Banana?;apple;banana;I think i'll eat that.
 Which one do you like chocolate or gumby candy?;chocolate;gumby candy; I like that so much!!!
 Guagua is traveling!
-Guagua is taking the bath!
+Guagua is taking bath!
