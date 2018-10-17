@@ -204,24 +204,25 @@ def determine_response body
       elsif body.include? "who"
       message = "I am a duck, my name is Guagua. I was created by Sijia which is my mom. Do not say bad at me, or I will call my mom!"
       elsif body == "what" or include_words body, what_words
-      message ="I am a duck like traveling！I will send you photos from all over the world！
-      And I can recommend you a traveling city. if you type something like “recomme me a city”.
-      Also, I will ask you questions when I am really hard to choose things!"
+      message ="I am a duck like traveling！I will send you photos from all over the world！And I can recommend you a traveling city, if you type something like “recomme me a city”. Also, I will ask you questions when I am really hard to choose things!"
       elsif body =="where"
       message = "I am traveling all over the world!"
       elsif body =="when" or include_words body, when_words
       message ="I was born in 2018."
       elsif body.include?"why"
       message = "I was made for a class project programing for online prototypes class in CMU."
+      elsif body.include? "haha" or body.include?"lol" or body.include?"hhh"
+      message = "Funny,righ?"
+      elsif body.include? "nice" or body.include?"intereting" or body.include?"amazing"
+      message = "I think so!"
+      elsif body.include? "love you" or body.include? "like you" or body.include? "miss you"
+      message = "Are you boring now?"
       elsif body.include? "boring"
       message = "Think about your assignments! Go back to work!"
-      elsif body.include? "nice"||"intereting" || "amazing"
-      message = "I think so!"
-      elsif body.include? "haha"||"lol" || "hhh"
-      message = "Is it funny?"
-      elsif body.include? "love you"||"like you" || "miss you"
-      message = "Are you boring now?"
-      elsif body.include? "recommend"||"recommendation"
+      elsif body.include? "yes"
+      message = ":)"
+
+      elsif body.include? "recommend" or  body.include?"recommendation"
       message, media = recommend_city
       elsif session[:lastquestion] != 0
 
@@ -269,6 +270,7 @@ def determine_response body
         #array_of_lines = IO.readlines("what_do_you_like.txt")
         #question = array_of_lines.sample.to_s
         #message = "Em.... "+ question
+        sigh_words=["... ", "Em.... ", "Hm... "]
         array_of_lines = IO.readlines("responses.txt")
         sampled = array_of_lines.sample.to_s
         items = []
@@ -282,7 +284,7 @@ def determine_response body
         # session[:lastquestion_responses2] = response2
         # session[:lastquestion_reply] = reply
         media = search_giphy_for ("confused")
-        message = "Em.... "+ session[:lastquestion].to_s
+        message = sigh_words.sample.to_s + session[:lastquestion].to_s
       end
     #end
   #end
