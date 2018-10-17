@@ -178,16 +178,16 @@ def determine_response body
   what_words =["what", "help", "feature", "function", "guide"]
   when_words = ["when", "created", "born", "made"]
   if  Time.now.hour.to_i>=12 && Time.now.hour.to_i<14
-  message = "Guagua is eating breakfast!"
+  message = "[Auto-replying] Guagua is eating breakfast!"
   media = search_giphy_for("breakfast")
   #elsif Time.now.hour.to_i>=17 && Time.now.hour.to_i<19
   #message = "Guagua is eating lunch!"
   #media = search_giphy_for("lunch")
   elsif Time.now.hour.to_i>=23 || Time.now.hour.to_i<2
-  message = "Guagua is eating dinner!"
+  message = "[Auto-replying]Guagua is eating dinner!"
   media = search_giphy_for("dinner")
   elsif Time.now.hour.to_i>=4 && Time.now.hour.to_i<12
-  message = "Guagua is sleeping!"
+  message = "[Auto-replying]Guagua is sleeping!"
   media = search_giphy_for("sleeping")
   else
 
@@ -204,8 +204,9 @@ def determine_response body
       elsif body == "why"
       message = "I was made for a class project in CMU programing for online prototypes."
       elsif body.include? "boring"
-      message = "Think about your assignments! You have some many things to do!"
-
+      message = "Think about your assignments! Go back to work!"
+      elsif body.include? "nice"||"intereting" || "amazing"
+      message = "I think so!"
       elsif session[:lastquestion] != 0
 
         array_of_lines = IO.readlines("responses.txt")
@@ -224,11 +225,11 @@ def determine_response body
             # response here...
             if (body.include? response1) or (body.include? response2)
                 message = reply
-                #media  = search_giphy_for ("happy")
+                media  = search_giphy_for ("happy")
                 #session[:lastquestion] = 0
             else
                message = "I think I will choose " + items[1]
-               #media = search_giphy_for ("confused")
+               media = search_giphy_for ("confused")
                #session[:lastquestion] = 0
             end
 
